@@ -107,42 +107,12 @@ def index():
         if request.form.get("setwlan") == "wlanbeenden":
             print("Der WLAN Hotspot wird beendet")
             
-        if request.form.get("Send SMS") == "Test SMS verschicken":
+        if request.form.get("Send SMS") == "Status SMS verschicken":
             #----- TODO: Datei für Tagesbericht anlegen -----
             print("Create daily report file")
             file = open("../../../messung/sms/dailyreport.txt","w")
             file.write("This file indicates that the system is trying to send a report sms")
             file.close()
-            
-       #     text = "Das ist eine Test SMS"
-       #     if SEND_SMS:
-       # 
-       #         app.logger.info("Try to send sms")
-       #         app.logger.info('Initializing modem...')
-       #         modem = GsmModem(PORT, BAUDRATE)
-       #         modem.connect(PIN)
-       #         
-       #         file = open("../../../config/smsziel.txt", "r")
-       #         smsziel = file.readline()
-       #         file.close()
-       #         smsziel = smsziel.split(smsziel,", ")
-       #             
-       #         for ziel in smsziel:
-       #             dest = "00" + ziel[1:]
-       #             
-       #             app.logger.info("Waiting for network coverage...")
-       #             modem.waitForNetworkCoverage(10)
-       #             app.logger.info('Sending SMS to: {0}'.format(dest))
-       #
-       #             response = modem.sendSms(dest, text)
-       #             if type(response) == SentSms:
-       #                 app.logger.info('SMS Delivered.')
-       #             else:
-       #                 app.logger.info('SMS Could not be sent')
-       #             modem.close()
-       #     else:
-       #         app.logger.info("SMS sending deactivated, would have sent SMS: " + text)
-                
                 
         if len(request.files) != 0 and request.files["new_version"].filename != "":
             new_version = request.files["new_version"]

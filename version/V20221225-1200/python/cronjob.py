@@ -324,7 +324,7 @@ def cronjob():
     schwellwert = schwellwertfile.readline()
     schwellwertfile.close()
     
-    if mittelwert > (float(schwellwert)*1.1): #Power consumption too high
+    if mittelwert > (float(schwellwert)*1.1) and mittelwert-float(schwellwert) > 3: #Power consumption too high
         if lernen_aktiv:
             print("Reset learning - higher power")
             print("From: " + schwellwert + " To: " + str(mittelwert))
@@ -346,7 +346,7 @@ def cronjob():
                 file.write("The power consumption is too high for 5 minutes, the system is now trying to send a sms")
                 file.close()
                 #send_sms("Der Stromverbrauch am Standort {} ist plötzlich gestiegen".format(standort))
-    elif mittelwert < (float(schwellwert)*0.9): #Power consumption too low
+    elif mittelwert < (float(schwellwert)*0.9) and float(schwellwert)-mittelwert > 3: #Power consumption too low
         if lernen_aktiv:
             print("Reset learning - lower power")
             print("From: " + schwellwert + " To: " + str(mittelwert))
