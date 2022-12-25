@@ -4,6 +4,8 @@
 ./enable-port.sh
 ./flask.service.sh
 ./mkcron.sh
+./eth.sh
+
 
 
 
