@@ -1,0 +1,6 @@
+import os
+res1=os.system("ln -sfn /usr/local/wandtrockner/oliver/test1   /usr/local/wandtrockner/oliver/active")
+print("Result "+str(res1))
+res2=os.system("sudo systemctl restart flask.service")
+print("Result2 "+str(res2))
+
