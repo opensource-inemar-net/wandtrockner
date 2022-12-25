@@ -149,6 +149,7 @@ def send_sms(text):
             print("No file smsziel.txt found")
             file = open("../../../config/smsziel.txt", "w")
             file.close()
+            return False
         file = open("../../../config/smsziel.txt", "r")
         smsziel = file.readline()
         file.close()
