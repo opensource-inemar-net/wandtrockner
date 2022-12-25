@@ -2,6 +2,7 @@
 ./enable-port.sh
 ./flask.service.sh
 ./mkcron.sh
+./aptinst.sh
 
 
 
