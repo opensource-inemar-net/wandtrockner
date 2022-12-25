@@ -143,7 +143,7 @@ def send_sms(text):
             print("Connection successful")
         except:
             print("Error while trying to send SMS, connection failed")
-            return
+            return False
         
         
         file = open("../../../config/smsziel.txt", "r")
@@ -168,11 +168,11 @@ def send_sms(text):
             modem.close()
     else:
         print("SMS sending deactivated, would have sent SMS: " + text)
-    return
+    return True
 
-def check_sms():
-    """Checks if there are new sms and execute commands from them"""
-    pass
+#def check_sms():
+#    """Checks if there are new sms and execute commands from them"""
+#    pass
 
 
 def cronjob():
@@ -192,9 +192,11 @@ def cronjob():
         alarmfile = open("../../../messung/alarm_keinstrom.txt", "r")
         alarm_counter = alarmfile.readline()
         alarmfile.close()
+        set_mode("Kein Strom")
         if int(alarm_counter) == 4:
-            set_mode("Kein Strom")
-            send_sms("Der Strom am Standort {} ist ausgefallen".format(standort))
+            file = open("../../../messung/sms/nopower.txt","w")
+            file.write("There is no Ethernet connection for 5 minutes, the system is now trying to send a sms")
+            file.close()
         alarmfile = open("../../../messung/alarm_keinstrom.txt", "w")
         alarmfile.write(str(int(alarm_counter)+1))
         alarmfile.close()
@@ -333,10 +335,13 @@ def cronjob():
             alarmfile = open("../../../messung/alarm_werthoch.txt", "w")
             alarmfile.write(str(int(alarm_counter)+1))
             alarmfile.close()
+            set_mode("Stromverbrauch gestiegen")
             if int(alarm_counter) == 5:
-                print("Alarm counter equals 5, sending SMS")
-                set_mode("Stromverbrauch gestiegen")
-                send_sms("Der Stromverbrauch am Standort {} ist plötzlich gestiegen".format(standort))
+                print("Alarm counter powwer_high equals 5, sending SMS")
+                file = open("../../../messung/sms/powerhigh.txt","w")
+                file.write("The power consumption is too high for 5 minutes, the system is now trying to send a sms")
+                file.close()
+                #send_sms("Der Stromverbrauch am Standort {} ist plötzlich gestiegen".format(standort))
     elif mittelwert < (float(schwellwert)*0.9): #Power consumption too low
         if lernen_aktiv:
             print("Reset learning - lower power")
@@ -353,22 +358,34 @@ def cronjob():
             alarmfile = open("../../../messung/alarm_wertniedrig.txt", "w")
             alarmfile.write(str(int(alarm_counter)+1))
             alarmfile.close()
+            set_mode("Stromverbrauch gesunken")
             if int(alarm_counter) == 5:
-                print("Alarm counter equals 5, sending SMS")
-                set_mode("Stromverbrauch gesunken")
-                send_sms("Der Stromverbrauch am Standort {} ist plötzlich gesunken".format(standort))
+                print("Alarm counter power_low equals 5, sending SMS")
+                file = open("../../../messung/sms/powerlow.txt","w")
+                file.write("The power consumption is too low for 5 minutes, the system is now trying to send a sms")
+                file.close()
+                #send_sms("Der Stromverbrauch am Standort {} ist plötzlich gesunken".format(standort))
     else:
-        print("Alarm is over, reseting counter")
+        print("Alarm is over, reseting alarm counter and mode")
         reset_alarm()
+        set_mode("Aktiv")
     
-    if os.path.isfile("../../../messung/boot.txt"):
-        os.remove("../../../messung/boot.txt")
-        send_sms("Das System am Standort {} wurde aktiviert und misst den Stromverbrauch.".format(standort))
+    if os.path.isfile("../../../messung/sms/boot.txt"):
+        if send_sms("Das System am Standort {} wurde aktiviert und misst den Stromverbrauch.".format(standort)):
+            os.remove("../../../messung/sms/boot.txt")
+    if os.path.isfile("../../../messung/sms/dailyreport.txt"):
+        if send_sms("Das System am Standort {} ist aktiv und der Stromverbrauch stabil.".format(standort)):
+            os.remove("../../../messung/sms/dailyreport.txt")
+    if os.path.isfile("../../../messung/sms/powerlow.txt"):
+        if send_sms("Der Stromverbrauch am Standort {} ist plötzlich gesunken".format(standort)):
+            os.remove("../../../messung/sms/powerlow.txt")
+    if os.path.isfile("../../../messung/sms/powerhigh.txt"):
+        if send_sms("Der Stromverbrauch am Standort {} ist plötzlich gestiegen".format(standort)):
+            os.remove("../../../messung/sms/powerhigh.txt")
+    if os.path.isfile("../../../messung/sms/nopower.txt"):
+        if send_sms("Der Strom am Standort {} ist ausgefallen".format(standort)):
+            os.remove("../../../messung/sms/nopower.txt")
     
-    if os.path.isfile("../../../messung/dailyreport.txt"):
-        os.remove("../../../messung/dailyreport.txt")
-        send_sms("Das System am Standort {} ist aktiv und der Stromverbrauch stabil.".format(standort))
-        
     check_gsmmodul()
     print("Finished cronjob")
         

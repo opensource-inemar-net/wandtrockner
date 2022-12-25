@@ -1,5 +1,7 @@
 logs/
 daten/
+config/sms*
+
 
 
 

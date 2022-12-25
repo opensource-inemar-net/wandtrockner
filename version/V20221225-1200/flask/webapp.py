@@ -100,7 +100,9 @@ def index():
             
         if request.form.get("Send SMS") == "Test SMS verschicken":
             #----- TODO: Datei für Tagesbericht anlegen -----
-            pass
+            file = open("../../../messung/sms/dailyreport.txt","w")
+            file.write("This file indicates, that the system is trying to send a report sms")
+            file.close()
             
        #     text = "Das ist eine Test SMS"
        #     if SEND_SMS:
@@ -267,7 +269,7 @@ def download_logs():
         # Only in Linux!
         if os.name != "nt":
             app.logger.info("Console command getlog.sh wird ausgeführt")
-            os.system("/usr/local/wandtrockner/active/active/scripts/getlog.sh")
+            os.system("bash /usr/local/wandtrockner/active/active/script/getlog.sh")
         
         shutil.make_archive("../../../messung/logs","zip",logpath)
     except:
