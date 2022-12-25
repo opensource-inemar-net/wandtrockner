@@ -1,3 +1,4 @@
+echo "Installing now python dependencies"
 pip install flask
 pip install pyserial
 pip install ./usr/local/wandtrockner/python-gsmmodem
