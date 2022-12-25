@@ -103,9 +103,11 @@ def index():
             file.close()
             
         if request.form.get("setwlan") == "wlanstarten":
-            print("Der WLAN Hotspot wird gestartet")
+            app.logger.info("Der WLAN Hotspot wird gestartet")
+            os.system("bash /usr/local/wandtrockner/active/active/script/actspot.sh")
         if request.form.get("setwlan") == "wlanbeenden":
-            print("Der WLAN Hotspot wird beendet")
+            app.logger.info("Der WLAN Hotspot wird beendet")
+            os.system("bash /usr/local/wandtrockner/active/active/script/dactspot.sh")
             
         if request.form.get("Send SMS") == "Status SMS verschicken":
             #----- TODO: Datei für Tagesbericht anlegen -----
