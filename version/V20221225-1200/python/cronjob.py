@@ -18,6 +18,7 @@ SEND_SMS = True #Can be used to print sms text instead of sending one
 
 
 def check_gsmmodul():
+    print("Checking for sms...")
     try:
         modem = GsmModem(PORT, BAUDRATE)
         print("Modem set")
@@ -29,11 +30,12 @@ def check_gsmmodul():
     
     messages = modem.listStoredSms(delete=True)
         
+    print("There are {} new messages".format(len(messages)))
     for message in messages:
         print("New message")
         print(message.number)
         print(message.text)
-        file = file.open("../../../messung/smseingang.txt",w)
+        file = open("../../../messung/smseingang.txt","w")
         file.write(message.text + ", " + str(mesage.number))
         file.close()
 
