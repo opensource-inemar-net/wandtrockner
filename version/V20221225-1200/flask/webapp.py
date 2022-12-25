@@ -32,14 +32,23 @@ def index():
     modus = file.readline()
     file.close()
     
+    if not os.path.isfile("../../../config/standort.txt"):
+        file = open("../../../config/standort.txt","w")
+        file.close()
     file = open("../../../config/standort.txt","r")
     standort = file.readline()
     file.close()
     
+    if not os.path.isfile("../../../config/smsziel.txt"):
+        file = open("../../../config/smsziel.txt","w")
+        file.close()
     file = open("../../../config/smsziel.txt","r")
     smsziel = file.readline()
     file.close()
     
+    if not os.path.isfile("../../../config/smserlaubt.txt"):
+        file = open("../../../config/smserlaubt.txt","w")
+        file.close()
     file = open("../../../config/smserlaubt.txt","r")
     erlaubte_nummern = file.readline()
     file.close
@@ -100,8 +109,9 @@ def index():
             
         if request.form.get("Send SMS") == "Test SMS verschicken":
             #----- TODO: Datei für Tagesbericht anlegen -----
+            print("Create daily report file")
             file = open("../../../messung/sms/dailyreport.txt","w")
-            file.write("This file indicates, that the system is trying to send a report sms")
+            file.write("This file indicates that the system is trying to send a report sms")
             file.close()
             
        #     text = "Das ist eine Test SMS"
