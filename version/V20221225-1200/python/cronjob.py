@@ -145,7 +145,10 @@ def send_sms(text):
             print("Error while trying to send SMS, connection failed")
             return False
         
-        
+        if not os.path.isfile("../../../config/smsziel.txt"):
+            print("No file smsziel.txt found")
+            file = open("../../../config/smsziel.txt", "w")
+            file.close()
         file = open("../../../config/smsziel.txt", "r")
         smsziel = file.readline()
         file.close()
