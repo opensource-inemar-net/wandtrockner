@@ -157,19 +157,20 @@ def send_sms(text):
         
         print("SMS destination found, trying to send")
         for ziel in smsziel:
-            dest = "00" + ziel[1:]
-            
-            print("Waiting for network coverage...")
-            modem.waitForNetworkCoverage(10)
-            print('Sending SMS to: {0}'.format(dest))
+            if len(ziel) > 5:
+                dest = "00" + ziel[1:]
+                
+                print("Waiting for network coverage...")
+                modem.waitForNetworkCoverage(10)
+                print('Sending SMS to: {0}'.format(dest))
 
-            response = modem.sendSms(dest, text)
-            if type(response) == SentSms:
-                print('SMS Delivered.')
-            else:
-                print('SMS Could not be sent')
+                response = modem.sendSms(dest, text)
+                if type(response) == SentSms:
+                    print('SMS Delivered.')
+                else:
+                    print('SMS Could not be sent')
 
-            modem.close()
+                modem.close()
     else:
         print("SMS sending deactivated, would have sent SMS: " + text)
     return True
@@ -378,8 +379,8 @@ def cronjob():
         if send_sms("Das System am Standort {} wurde aktiviert und misst den Stromverbrauch.".format(standort)):
             os.remove("../../../messung/sms/boot.txt")
     if os.path.isfile("../../../messung/sms/dailyreport.txt"):
-        #if send_sms("Statusmeldung: Das System am Standort {} ist aktiv und der Stromverbrauch stabil.".format(standort)):
-        os.remove("../../../messung/sms/dailyreport.txt")
+        if send_sms("Statusmeldung: Das System am Standort {} ist aktiv und der Stromverbrauch stabil.".format(standort)):
+            os.remove("../../../messung/sms/dailyreport.txt")
     if os.path.isfile("../../../messung/sms/powerlow.txt"):
         if send_sms("Der Stromverbrauch am Standort {} ist plötzlich gesunken".format(standort)):
             os.remove("../../../messung/sms/powerlow.txt")
