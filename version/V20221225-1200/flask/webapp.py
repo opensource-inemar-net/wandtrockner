@@ -173,20 +173,21 @@ def index():
 
                 for nummer in zielnummern:
                     nummer = nummer.strip()
-                    for char in nummer[1:]:
-                        if not char.isdecimal() and not char == " ":
-                            break
-                    else:
-                        if nummer[:2] == "00":
-                            nummer = "+" + nummer[2:]
-                            checked_zielnummern += nummer.replace(" ", "") + ", "
-                        elif nummer[0] == "0":
-                            nummer = "+43" + nummer[1:]
-                            checked_zielnummern += nummer.replace(" ", "") + ", "
-                        elif nummer[0] == "+":
-                            checked_zielnummern += nummer.replace(" ", "") + ", "
+                    if len(number)>5:
+                        for char in nummer[1:]:
+                            if not char.isdecimal() and not char == " ":
+                                break
                         else:
-                            continue
+                            if nummer[:2] == "00":
+                                nummer = "+" + nummer[2:]
+                                checked_zielnummern += nummer.replace(" ", "") + ", "
+                            elif nummer[0] == "0": #Error?
+                                nummer = "+43" + nummer[1:]
+                                checked_zielnummern += nummer.replace(" ", "") + ", "
+                            elif nummer[0] == "+":
+                                checked_zielnummern += nummer.replace(" ", "") + ", "
+                            else:
+                                continue
                 
                 #Save the new phonenumbers
                 file = open("../../../config/smsziel.txt","w")
@@ -237,7 +238,7 @@ def index():
         moduscolor = "red"
         
     
-    return render_template("index.html", modus=modus, moduscolor=moduscolor, standort=standort, zielnummer=smsziel, erlaubte_nummern=erlaubte_nummern, device=device, uhrzeit=datetime.datetime.now().strftime("%H:%M"), verbrauch=verbrauch, version=version, lernzeit=datetime.datetime.fromisoformat(lernzeit).strftime("%H:%M"), mittelwert=mittelwert, schwellwert=schwellwert)
+    return render_template("index.html", modus=modus, moduscolor=moduscolor, standort=standort, zielnummer=smsziel, erlaubte_nummern=erlaubte_nummern, device=device, uhrzeit=datetime.datetime.now().strftime("%H:%M"), verbrauch=str(round(float(verbrauch))), version=version, lernzeit=datetime.datetime.fromisoformat(lernzeit).strftime("%H:%M"), mittelwert=str(round(float(mittelwert))), schwellwert=str(round(float(schwellwert))))
 
 #@app.route('/downloadlogs')
 def download_logs():

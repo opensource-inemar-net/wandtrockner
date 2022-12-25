@@ -1,3 +1,0 @@
-print("Cron is running")
-
-
