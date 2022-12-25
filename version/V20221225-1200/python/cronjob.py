@@ -378,8 +378,8 @@ def cronjob():
         if send_sms("Das System am Standort {} wurde aktiviert und misst den Stromverbrauch.".format(standort)):
             os.remove("../../../messung/sms/boot.txt")
     if os.path.isfile("../../../messung/sms/dailyreport.txt"):
-        if send_sms("Das System am Standort {} ist aktiv und der Stromverbrauch stabil.".format(standort)):
-            os.remove("../../../messung/sms/dailyreport.txt")
+        #if send_sms("Statusmeldung: Das System am Standort {} ist aktiv und der Stromverbrauch stabil.".format(standort)):
+        os.remove("../../../messung/sms/dailyreport.txt")
     if os.path.isfile("../../../messung/sms/powerlow.txt"):
         if send_sms("Der Stromverbrauch am Standort {} ist plötzlich gesunken".format(standort)):
             os.remove("../../../messung/sms/powerlow.txt")
