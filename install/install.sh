@@ -1,4 +1,5 @@
 ./xdir.sh
+./sethost.sh
 ./aptinst.sh
 ./pipinstall.sh
 ./enable-port.sh

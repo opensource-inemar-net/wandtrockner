@@ -1,1 +1,1 @@
-MyHomePi
+raspberrypi
