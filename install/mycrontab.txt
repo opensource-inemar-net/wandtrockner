@@ -21,6 +21,6 @@
 # For more information see the manual pages of crontab(5) and cron(8)
 # 
 # m h  dom mon dow   command
-* * * * * bash /usr/local/wandtrockner/active/active/script/cronmin.sh > /usr/local/wandtrockner/logs/cronminlog 2>&1
+*/2 * * * * bash /usr/local/wandtrockner/active/active/script/cronmin.sh > /usr/local/wandtrockner/logs/startcron.txt 2>&1
 
 

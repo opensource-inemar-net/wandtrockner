@@ -1,1 +1,0 @@
-There is no Ethernet connection for 5 minutes, the system is now trying to send a sms

@@ -1,0 +1,1 @@
+This file indicates that the system is trying to send a report sms

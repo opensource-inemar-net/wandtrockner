@@ -6,27 +6,33 @@ from pathvalidate import sanitize_filepath
 from gsmmodem.modem import GsmModem, SentSms
 import datetime
 import os
+import logging
 
 
 PORT = '/dev/ttyUSB3'
-BAUDRATE = 115200
+#BAUDRATE = 115200
+BAUDRATE = 19200
 #SMS_DESTINATION = '00436608937423'
 PIN = None  # SIM card PIN (if any)
 
 LEARNING_DURATION = 240 #in minutes
 SEND_SMS = True #Can be used to print sms text instead of sending one
+HELPSMS = "Diese Befehle sind möglich:\nhilfe - Erhalte SMS mit möglichen Kommandos\nstandort [xxx] - Speichert die Zeichen nach 'standort ' als neuen Standort\nlernen - Startet lernen\nfertig - Stoppt lernen\nstatus - Versendet eine Statusmeldung\npause - Verhindert das Senden von Warnung für 24 Stunden\nhotspot - Aktiviert Hotspot\nwlan - Bucht in WLAN ein"
+    
 
-
-def check_gsmmodul():
+def check_sms(modem):
     print("Checking for sms...")
-    try:
-        modem = GsmModem(PORT, BAUDRATE)
-        print("Modem set")
-        modem.connect(PIN)
-        print("Connection successful")
-    except:
-        print("Error while checking for SMS, connection failed")
+    if modem == None:
+        print("Modem not connected")
         return
+    #try:
+    #    modem = GsmModem(PORT, BAUDRATE)
+    #    print("Modem set")
+    #    modem.connect(PIN)
+    #    print("Connection successful")
+    #except:
+    #    print("Error while checking for SMS, connection failed")
+    #    return
     
     messages = modem.listStoredSms(delete=True)
         
@@ -36,10 +42,41 @@ def check_gsmmodul():
         print(message.number)
         print(message.text)
         file = open("../../../messung/smseingang.txt","w")
-        file.write(message.text + ", " + str(mesage.number))
+        file.write(message.text + ", " + str(message.number))
         file.close()
+        
+        # ----- Check the content of the sms -----
+        text = message.text.strip().lower()
+        
+        if text == "help" or text == "hilfe":
+            file = open("../../../messung/sms/help.txt","w")
+            file.write("This file indicates that the system is trying to send a sms with possible sms commands")
+            file.close()
+        if text[:8] == "standort":
+            file = open("../../../config/standort.txt","w")
+            file.write(text[9:])
+            file.close()
+        if text == "lernen":
+            activate_learning()
+        if text == "fertig":
+            file = open("../../../config/lernen.txt","w")
+            file.write(datetime.datetime.now().isoformat())
+            file.close()
+            set_mode("Aktiv")
+        if text == "status":
+            file = open("../../../messung/sms/dailyreport.txt","w")
+            file.write("This file indicates that the system is trying to send a report sms")
+            file.close()
+        if text == "pause":
+            file = open("../../../messung/sms/pause.txt","w")
+            file.write((datetime.datetime.now()+datetime.timedelta(hours=24)).isoformat())
+            file.close()
+        if text == "hotspot":
+            pass
+        if text == "wlan":
+            pass
 
-    modem.close()
+    #modem.close()
     return
 
 
@@ -130,20 +167,24 @@ def set_mode(modus):
     file.close()
     return
     
-def send_sms(text):
+def send_sms(text,modem):
     """Sends a sms containing the received text"""
+    if modem == None:
+        print("No connection to the modem")
+        return False
+    
     if SEND_SMS:
         
         print("Try to send sms")
-        print('Initializing modem...')
-        try:
-            modem = GsmModem(PORT, BAUDRATE)
-            print("Modem set")
-            modem.connect(PIN)
-            print("Connection successful")
-        except:
-            print("Error while trying to send SMS, connection failed")
-            return False
+        #print('Initializing modem...')
+        #try:
+        #    modem = GsmModem(PORT, BAUDRATE)
+        #    print("Modem set")
+        #    modem.connect(PIN)
+        #    print("Connection successful")
+        #except:
+        #    print("Error while trying to send SMS, connection failed")
+        #    return False
         
         if not os.path.isfile("../../../config/smsziel.txt"):
             print("No file smsziel.txt found")
@@ -158,31 +199,73 @@ def send_sms(text):
         print("SMS destination found, trying to send")
         for ziel in smsziel:
             if len(ziel) > 5:
-                dest = "00" + ziel[1:]
-                
+                #dest = "00" + ziel[1:]
+                dest = ziel
                 print("Waiting for network coverage...")
-                modem.waitForNetworkCoverage(10)
+                try:
+                    resp = modem.waitForNetworkCoverage(20)
+                    print(resp)
+                except:
+                    print("No network coverage")
+                    return False
                 print('Sending SMS to: {0}'.format(dest))
+                print("Text: " + text)
 
-                response = modem.sendSms(dest, text)
-                if type(response) == SentSms:
-                    print('SMS Delivered.')
-                else:
-                    print('SMS Could not be sent')
+                try:
+                    modem.smsTextMode = False
+                    response = modem.sendSms(dest, text, deliveryTimeout=30)
+                    print(response)
+                    if type(response) == SentSms:
+                        print('SMS Delivered.')
+                    else:
+                        print('SMS Could not be sent')
+                        return False
+                except Exception as e:
+                    print("Exception occured")
+                    print(e)
+                    return False
+                print("SMS should be on its way")
+                
 
-                modem.close()
+        #modem.close()
     else:
         print("SMS sending deactivated, would have sent SMS: " + text)
     return True
 
-#def check_sms():
-#    """Checks if there are new sms and execute commands from them"""
-#    pass
-
 
 def cronjob():
 
+    print("---------------------------------------------------------")
     print("Starting the cronjob")
+    
+    
+    root = logging.getLogger()
+    root.setLevel(logging.DEBUG)
+
+    handler = logging.StreamHandler(sys.stdout)
+    handler.setLevel(logging.DEBUG)
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    handler.setFormatter(formatter)
+    root.addHandler(handler)
+    
+    print("Try to connect to modem")
+    modem = None
+    try:
+        modem = GsmModem(PORT, BAUDRATE, requestDelivery=False)
+        print("Modem set")
+        modem.connect(PIN,waitingForModemToStartInSeconds=15)
+        print("Connection successful")
+        #modem.smsTextMode = True
+    except Exception as e:
+        print("Error while connecting to modem, connection failed")
+        print(e)
+        modem = None
+    
+    
+    #if modem != None:
+    #    modem.timeActivateNITZ()
+    
+    
 
     # ----- Establish connection to the Energy Meter ---------
     client = ModbusClient(host="192.168.1.249", port = 502, auto_open=True,debug=True)
@@ -265,12 +348,16 @@ def cronjob():
     file.close()
     
     #--------- Write data to csv file --------
+    #gsmtime = modem.time
+    #print("Time of the gsm modem: ")
+    #print(gsmtime)
+    
     if not os.path.isfile("../../../daten/" + sanitize_filepath(standort) +"-daten.csv"):
         #new .csv file
         datafile = open("../../../daten/" + sanitize_filepath(standort) +"-daten.csv", "w", encoding='UTF8', newline='')
         datafile_writer = csv.writer(datafile)
-        datafile_writer.writerow(["Datum", "Standort", "Voltage Phase 1 (V)", "Voltage Phase 2 (V)", "Voltage Phase 3 (V)", "System Voltage (V)", "Current Phase 1 (A)", "Current Phase 2 (A)", "Current Phase 3 (A)", "Neutral Current (A)", "System Current (A)", "Active Power Phase 1 (W)", "Active Power Phase 2 (W)", "Active Power Phase 3 (W)", "System Active Power (W)"])
-        datafile_writer.writerow([datetime.datetime.now().strftime("%Y-%m-%d"),standort,voltage_phase1,voltage_phase2,voltage_phase3,voltage_system,current_phase1,current_phase2,current_phase3,current_neutral,current_system,activepower_phase1,activepower_phase2,activepower_phase3,activepower_system])
+        datafile_writer.writerow(["Zeit des Geräts", "Standort", "Voltage Phase 1 (V)", "Voltage Phase 2 (V)", "Voltage Phase 3 (V)", "System Voltage (V)", "Current Phase 1 (A)", "Current Phase 2 (A)", "Current Phase 3 (A)", "Neutral Current (A)", "System Current (A)", "Active Power Phase 1 (W)", "Active Power Phase 2 (W)", "Active Power Phase 3 (W)", "System Active Power (W)"])
+        datafile_writer.writerow([datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),standort,voltage_phase1,voltage_phase2,voltage_phase3,voltage_system,current_phase1,current_phase2,current_phase3,current_neutral,current_system,activepower_phase1,activepower_phase2,activepower_phase3,activepower_system])
         datafile.close()
     else:
         #add to existing file
@@ -376,22 +463,37 @@ def cronjob():
         set_mode("Aktiv")
     
     if os.path.isfile("../../../messung/sms/boot.txt"):
-        if send_sms("Das System am Standort {} wurde aktiviert und misst den Stromverbrauch.".format(standort)):
+        if send_sms("Das System am Standort {} wurde aktiviert und misst den Stromverbrauch.".format(standort),modem):
             os.remove("../../../messung/sms/boot.txt")
     if os.path.isfile("../../../messung/sms/dailyreport.txt"):
-        if send_sms("Statusmeldung: Das System am Standort {} ist aktiv und der Stromverbrauch stabil.".format(standort)):
+        if send_sms("Hallo",modem):
+        #if send_sms("Statusmeldung: Es ist {} Uhr, das System am Standort {} ist im Modus {} und der aktuelle Stromverbrauch beträgt {}".format(datetime.datetime.now().strftime("%H:%M"),standort,mode,activepower_system),modem):
             os.remove("../../../messung/sms/dailyreport.txt")
-    if os.path.isfile("../../../messung/sms/powerlow.txt"):
-        if send_sms("Der Stromverbrauch am Standort {} ist plötzlich gesunken".format(standort)):
-            os.remove("../../../messung/sms/powerlow.txt")
-    if os.path.isfile("../../../messung/sms/powerhigh.txt"):
-        if send_sms("Der Stromverbrauch am Standort {} ist plötzlich gestiegen".format(standort)):
-            os.remove("../../../messung/sms/powerhigh.txt")
-    if os.path.isfile("../../../messung/sms/nopower.txt"):
-        if send_sms("Der Strom am Standort {} ist ausgefallen".format(standort)):
-            os.remove("../../../messung/sms/nopower.txt")
+    if os.path.isfile("../../../messung/sms/help.txt"):
+        if send_sms(HELPTEXT):
+            os.remove("../../../messung/sms/help.txt")
+    if not os.path.isfile("../../../messung/sms/pause.txt"):
+        if os.path.isfile("../../../messung/sms/powerlow.txt"):
+            if send_sms("Der Stromverbrauch am Standort {} ist plötzlich gesunken".format(standort),modem):
+                os.remove("../../../messung/sms/powerlow.txt")
+        if os.path.isfile("../../../messung/sms/powerhigh.txt"):
+            if send_sms("Der Stromverbrauch am Standort {} ist plötzlich gestiegen".format(standort),modem):
+                os.remove("../../../messung/sms/powerhigh.txt")
+        if os.path.isfile("../../../messung/sms/nopower.txt"):
+            if send_sms("Der Strom am Standort {} ist ausgefallen".format(standort),modem):
+                os.remove("../../../messung/sms/nopower.txt")
+            
     
-    check_gsmmodul()
+    if os.path.isfile("../../../messung/sms/pause.txt"):
+        file = open("../../../messung/sms/pause.txt","w")
+        deletetime = file.readline()
+        file.close()
+        if deletetime < datetime.datetime.now().isoformat():
+            os.remove("../../../messung/sms/pause.txt")
+    
+    check_sms(modem)
+    if modem != None:
+        modem.close()
     print("Finished cronjob")
         
     

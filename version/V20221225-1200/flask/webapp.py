@@ -82,7 +82,7 @@ def index():
             if request.form.get("new_standort") != "":
                 file = open("../../../config/standort.txt","w")
                 file.write(request.form.get('new_standort'))
-                standort = request.form.get('new_standort')
+                standort = request.form.get('new_standort') 
                 file.close()
                 # ----- Lernen starten -----
                 file = open("../../../messung/modus.txt","w")
@@ -175,7 +175,7 @@ def index():
 
                 for nummer in zielnummern:
                     nummer = nummer.strip()
-                    if len(number)>5:
+                    if len(nummer)>5:
                         for char in nummer[1:]:
                             if not char.isdecimal() and not char == " ":
                                 break
