@@ -1,0 +1,14 @@
+[Unit]
+Description=Boot Report Service
+After=network.target
+
+[Service]
+Type=simple
+User=inemar
+WorkingDirectory=/usr/local/wandtrockner/active/active/flask
+ExecStart=bash /usr/local/wandtrockner/active/active/script/bootreport.sh > /usr/local/wandtrockner/logs/startbootreport.txt 2>&1
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+

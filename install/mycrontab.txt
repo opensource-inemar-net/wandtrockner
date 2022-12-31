@@ -22,5 +22,6 @@
 # 
 # m h  dom mon dow   command
 */2 * * * * bash /usr/local/wandtrockner/active/active/script/cronmin.sh > /usr/local/wandtrockner/logs/startcron.txt 2>&1
+1 7,12 * * * bash /usr/local/wandtrockner/active/active/script/dailyreport.sh > /usr/local/wandtrockner/logs/startdailyreport.txt 2>&1
 
 

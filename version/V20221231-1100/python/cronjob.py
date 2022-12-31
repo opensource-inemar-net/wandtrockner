@@ -408,8 +408,14 @@ def cronjob():
             #modefile.write("Aktiv")
             #modefile.close()
             set_mode("Aktiv")
+            
     
-    
+    file = open("../../../messung/modem.txt", "w")
+    if modem != None:
+        file.write(modem.imsi + "," + modem.signalStrengh + "," + modem.write('AT+CPSI?'))
+    else:
+        file.write("Keine Verbindung" + "," + "Keine Verbindung" + "," + "Keine Verbindung")
+    file.close()
     # ----- Compare average power with the threshold value for the alarm -----
     schwellwertfile = open("../../../messung/schwellwert.txt", "r")
     schwellwert = schwellwertfile.readline()
@@ -503,9 +509,3 @@ def cronjob():
 
 if __name__ == '__main__':
     cronjob()
-
-
-"""
-Problem when learned value==0: average never reaches learned value
-
-"""
