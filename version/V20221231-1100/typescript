@@ -1,0 +1,138 @@
+Script started on 2022-12-28 22:21:17+01:00 [TERM="xterm" TTY="/dev/pts/0" COLUMNS="237" LINES="66"]
+[?2004h]0;inemar@wandtrockner1: /usr/local/wandtrockner/active/active[01;32minemar@wandtrockner1[00m:[01;34m/usr/local/wandtrockner/active/active $[00m cd script
+[?2004l[?2004h]0;inemar@wandtrockner1: /usr/local/wandtrockner/active/active/script[01;32minemar@wandtrockner1[00m:[01;34m/usr/local/wandtrockner/active/active/script $[00m ls
+[?2004lactspot.sh  cronmin.sh  dactspot.sh  getlog.sh  [0m[01;34mroot[0m
+[?2004h]0;inemar@wandtrockner1: /usr/local/wandtrockner/active/active/script[01;32minemar@wandtrockner1[00m:[01;34m/usr/local/wandtrockner/active/active/script $[00m cd ..
+[?2004l[?2004h]0;inemar@wandtrockner1: /usr/local/wandtrockner/active/active[01;32minemar@wandtrockner1[00m:[01;34m/usr/local/wandtrockner/active/active $[00m cd python
+[?2004l[?2004h]0;inemar@wandtrockner1: /usr/local/wandtrockner/active/active/python[01;32minemar@wandtrockner1[00m:[01;34m/usr/local/wandtrockner/active/active/python $[00m python cronji[Kob.py
+[?2004l---------------------------------------------------------
+Starting the cronjob
+Try to connect to modem
+Modem set
+Error while connecting to modem, connection failed
+None
+Opening connection
+Reading data...
+Tx
+[92 26 00 00 00 06 01] 03 00 00 00 41
+Rx
+[92 26 00 00 00 85 01] 03 82 00 00 00 00 00 00 00 00 00 03 89 72 00 00 00 00 00 03 7D FD 00 03 82 A7 00 02 0A C2 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 C3 64
+Data:
+Phase 1 active power: 0.0 W
+Phase 2 active power: 0.0 W
+Phase 3 active power: 0.0 W
+System active power: 0.0 W
+Frequency: 50.02
+Alarm is over, reseting alarm counter and mode
+Checking for sms...
+Modem not connected
+Finished cronjob
+[?2004h]0;inemar@wandtrockner1: /usr/local/wandtrockner/active/active/python[01;32minemar@wandtrockner1[00m:[01;34m/usr/local/wandtrockner/active/active/python $[00m python cronjob.py
+[?2004l---------------------------------------------------------
+Starting the cronjob
+Try to connect to modem
+Modem set
+Error while connecting to modem, connection failed
+None
+Opening connection
+Reading data...
+Tx
+[B6 13 00 00 00 06 01] 03 00 00 00 41
+Rx
+[B6 13 00 00 00 85 01] 03 82 00 00 00 00 00 00 00 00 00 03 88 0F 00 00 00 00 00 03 7C 9E 00 03 81 45 00 02 09 F5 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 C3 64
+Data:
+Phase 1 active power: 0.0 W
+Phase 2 active power: 0.0 W
+Phase 3 active power: 0.0 W
+System active power: 0.0 W
+Frequency: 50.02
+Alarm is over, reseting alarm counter and mode
+Checking for sms...
+Modem not connected
+Finished cronjob
+[?2004h]0;inemar@wandtrockner1: /usr/local/wandtrockner/active/active/python[01;32minemar@wandtrockner1[00m:[01;34m/usr/local/wandtrockner/active/active/python $[00m python cronjob.py
+[?2004l---------------------------------------------------------
+Starting the cronjob
+Try to connect to modem
+Modem set
+Error while connecting to modem, connection failed
+None
+Opening connection
+Reading data...
+Tx
+[61 97 00 00 00 06 01] 03 00 00 00 41
+Rx
+[61 97 00 00 00 85 01] 03 82 00 00 00 00 00 00 00 00 00 03 87 2C 00 00 00 00 00 03 7B BD 00 03 80 67 00 02 09 72 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 C3 64
+Data:
+Phase 1 active power: 0.0 W
+Phase 2 active power: 0.0 W
+Phase 3 active power: 0.0 W
+System active power: 0.0 W
+Frequency: 50.02
+Alarm is over, reseting alarm counter and mode
+Checking for sms...
+Modem not connected
+Finished cronjob
+[?2004h]0;inemar@wandtrockner1: /usr/local/wandtrockner/active/active/python[01;32minemar@wandtrockner1[00m:[01;34m/usr/local/wandtrockner/active/active/python $[00m python cronjob.py
+[?2004l---------------------------------------------------------
+Starting the cronjob
+Try to connect to modem
+Modem set
+Error while connecting to modem, connection failed
+None
+Opening connection
+Reading data...
+Tx
+[82 3B 00 00 00 06 01] 03 00 00 00 41
+Rx
+[82 3B 00 00 00 85 01] 03 82 00 00 00 00 00 00 00 00 00 03 85 C4 00 00 00 00 00 03 7A 5C 00 03 7F 03 00 02 08 A2 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 C3 64
+Data:
+Phase 1 active power: 0.0 W
+Phase 2 active power: 0.0 W
+Phase 3 active power: 0.0 W
+System active power: 0.0 W
+Frequency: 50.02
+Alarm is over, reseting alarm counter and mode
+Checking for sms...
+Modem not connected
+Finished cronjob
+[?2004h]0;inemar@wandtrockner1: /usr/local/wandtrockner/active/active/python[01;32minemar@wandtrockner1[00m:[01;34m/usr/local/wandtrockner/active/active/python $[00m python cronjob.py
+[?2004l---------------------------------------------------------
+Starting the cronjob
+Try to connect to modem
+Modem set
+Error while connecting to modem, connection failed
+None
+Opening connection
+Reading data...
+Tx
+[91 C1 00 00 00 06 01] 03 00 00 00 41
+Rx
+[91 C1 00 00 00 85 01] 03 82 00 00 00 00 00 00 00 00 00 03 84 12 00 00 00 00 00 03 78 AE 00 03 7D 52 00 02 07 A8 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 C3 6E
+Data:
+Phase 1 active power: 0.0 W
+Phase 2 active power: 0.0 W
+Phase 3 active power: 0.0 W
+System active power: 0.0 W
+Frequency: 50.03
+Alarm is over, reseting alarm counter and mode
+Checking for sms...
+Modem not connected
+Finished cronjob
+[?2004h]0;inemar@wandtrockner1: /usr/local/wandtrockner/active/active/python[01;32minemar@wandtrockner1[00m:[01;34m/usr/local/wandtrockner/active/active/python $[00m python cronjob.py[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[Kps -ef[K[K[K-ef | grep python
+[?2004linemar     547     1  0 20:44 ?        00:00:01 [01;31m[Kpython[m[K webapp.py
+inemar     757   547  2 20:44 ?        00:02:21 /usr/bin/[01;31m[Kpython[m[K /usr/local/wandtrockner/version/V20221225-1200/flask/webapp.py
+inemar     991     1  0 20:45 ?        00:00:01 /usr/bin/[01;31m[Kpython[m[K3 /usr/share/system-config-printer/applet.py
+inemar    2621  2597  0 22:23 pts/1    00:00:00 grep --color=auto [01;31m[Kpython[m[K
+[?2004h]0;inemar@wandtrockner1: /usr/local/wandtrockner/active/active/python[01;32minemar@wandtrockner1[00m:[01;34m/usr/local/wandtrockner/active/active/python $[00m ps -ef | grep python[3Python cronjob.py
+[?2004l---------------------------------------------------------
+Starting the cronjob
+Try to connect to modem
+Modem set
+Connection successful
+Opening connection
+Reading data...
+Tx
+[B2 BC 00 00 00 06 01] 03 00 00 00 41
+Rx
+[B2 BC 00 00 00 85 01] 03 82 00 00 00 00 00 00 00 00 00 03 90 1A 00 00 00 00 00 03 84 90 00 03 89 44 00 02 0E 9A 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 C3 6E
