@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, send_file, Response
 import os
 import datetime
 from zipfile import ZipFile
-from pathvalidate import sanitize_filepath
+from pathvalidate import sanitize_filename
 import shutil
 import sys
 import signal
@@ -87,9 +87,11 @@ def index():
     if request.method == 'POST':
         if request.form.get("new_standort") != None:
             if request.form.get("new_standort") != "":
+                new_standort = request.form.get('new_standort')
+                new_standort = sanitize_filename(new_standort)
                 file = open("../../../config/standort.txt","w")
-                file.write(request.form.get('new_standort'))
-                standort = request.form.get('new_standort') 
+                file.write(new_standort)
+                standort = new_standort 
                 file.close()
                 # ----- Lernen starten -----
                 file = open("../../../messung/modus.txt","w")
