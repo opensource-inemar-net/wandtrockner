@@ -293,7 +293,7 @@ def cronjob():
     
     if data == None:
         print("No connection to Energy Meter")
-        alarmfile = open("../../../messung/alarm_keinstrom.txt", "r")
+        alarmfile = open("../../../messung/alarm_nopower.txt", "r")
         alarm_counter = alarmfile.readline()
         alarmfile.close()
         set_mode("Kein Strom")
@@ -301,7 +301,7 @@ def cronjob():
             file = open("../../../messung/sms/nopower.txt","w")
             file.write("There is no Ethernet connection for 5 minutes, the system is now trying to send a sms")
             file.close()
-        alarmfile = open("../../../messung/alarm_keinstrom.txt", "w")
+        alarmfile = open("../../../messung/alarm_nopower.txt", "w")
         alarmfile.write(str(int(alarm_counter)+1))
         alarmfile.close()
         activepower_system = "---No connection---"
@@ -480,9 +480,10 @@ def cronjob():
                     file.close()
                     #send_sms("Der Stromverbrauch am Standort {} ist plötzlich gesunken".format(standort))
         else:
-            print("Alarm is over, reseting alarm counter and mode")
-            reset_alarm()
-            set_mode("Aktiv")
+            if not lernen_aktiv:
+                print("Alarm is over, reseting alarm counter and mode")
+                reset_alarm()
+                set_mode("Aktiv")
     
     if os.path.isfile("../../../messung/sms/bootreport.txt"):
         if send_sms("Das System am Standort {} wurde aktiviert und misst den Stromverbrauch.".format(standort),modem):
